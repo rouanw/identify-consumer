@@ -1,0 +1,25 @@
+{
+  "name": "identify-consumer",
+  "version": "1.0.0",
+  "description": "Express middleware to help you identify who is using your endpoints",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rouanw/identify-consumer.git"
+  },
+  "keywords": [
+    "express",
+    "identify",
+    "consumer",
+    "microservices"
+  ],
+  "author": "rouanw",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rouanw/identify-consumer/issues"
+  },
+  "homepage": "https://github.com/rouanw/identify-consumer#readme"
+}
