@@ -27,6 +27,8 @@ describe('identify-consumer', () => {
     server = setup(middleware, ['/here', return200]);
     request(server)
       .get('/here?consumer=someone')
-      .then(() => {});
+      .end(() => {
+        // do nothing, wait for callback instead
+      });
   });
 });
