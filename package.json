@@ -1,6 +1,6 @@
 {
   "name": "identify-consumer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Express middleware to help you identify who is using your endpoints",
   "main": "index.js",
   "scripts": {
