@@ -79,4 +79,11 @@ describe('identify-consumer', () => {
       .get('/here')
       .expect(400, done);
   });
+  it('copes when passed no options', (done) => {
+    const middleware = identifyConsumer();
+    server = setup([middleware], ['/here', return200]);
+    request(server)
+      .get('/here')
+      .expect(200, done);
+  });
 });

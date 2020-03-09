@@ -1,4 +1,4 @@
-module.exports = ({ callback, noConsumerCallback, strict }) => (req, res, next) => {
+module.exports = ({ callback, noConsumerCallback, strict } = {}) => (req, res, next) => {
   const consumer = req.query.consumer || req.body.consumer;
   if (consumer) {
     callback && callback(consumer);
