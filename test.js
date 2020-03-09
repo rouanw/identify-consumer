@@ -47,10 +47,11 @@ describe('identify-consumer', () => {
       .send({ stuff: 'stuff', consumer: 'someone' })
       .expect(200, end);
   });
-  it('provides the originalUrl when there is a consumer', (done) => {
+  it('provides the express request when there is a consumer', (done) => {
     const middleware = identifyConsumer({
-      callback: (consumer, originalUrl) => {
-        assert.equal(originalUrl, '/here');
+      callback: (consumer, req) => {
+        assert.ok(req);
+        assert.ok(req.originalUrl);
         done();
       },
     });
@@ -78,10 +79,11 @@ describe('identify-consumer', () => {
       .get('/here')
       .expect(200, end);
   });
-  it('calls the provided noConsumerCallback callback with the original url of the request', (done) => {
+  it('calls the provided noConsumerCallback callback with the express request', (done) => {
     const middleware = identifyConsumer({
-      noConsumerCallback: (originalUrl) => {
-        assert.equal(originalUrl, '/here');
+      noConsumerCallback: (req) => {
+        assert.ok(req);
+        assert.ok(req.originalUrl);
         done();
       },
     });

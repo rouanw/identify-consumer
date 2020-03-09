@@ -2,11 +2,11 @@ module.exports = ({ callback, noConsumerCallback, strict } = {}) => (req, res, n
   const body = req.body || {};
   const consumer = req.query.consumer || body.consumer;
   if (consumer) {
-    callback && callback(consumer, req.originalUrl);
+    callback && callback(consumer, req);
     return next();
   } 
   
-  noConsumerCallback && noConsumerCallback(req.originalUrl);
+  noConsumerCallback && noConsumerCallback(req);
   
   if (strict) {
     return res.sendStatus(400);
