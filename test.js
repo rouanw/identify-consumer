@@ -46,4 +46,29 @@ describe('identify-consumer', () => {
       .send({ stuff: 'stuff', consumer: 'someone' })
       .end(() => {});
   });
+  it('copes when there is no callback', (done) => {
+    const middleware = identifyConsumer({});
+    server = setup([middleware], ['/here', return200]);
+    request(server)
+      .get('/here?consumer=someone')
+      .expect(200, done);
+  });
+  it('calls the provided callback when their is no consumer', (done) => {
+    const middleware = identifyConsumer({
+      noConsumerCallback: () => {
+        done();
+      }
+    });
+    server = setup(middleware, ['/here', return200]);
+    request(server)
+      .get('/here')
+      .end(() => {});
+  });
+  it('copes when there is no noConsumerCallback callback', (done) => {
+    const middleware = identifyConsumer({});
+    server = setup([middleware], ['/here', return200]);
+    request(server)
+      .get('/here')
+      .expect(200, done);
+  });
 });
