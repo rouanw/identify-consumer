@@ -17,7 +17,7 @@ describe('identify-consumer', () => {
   afterEach(() => {
     server.close();
   });
-  it('call the provided callback with a query string param identifying the consumer', (done) => {
+  it('calls the provided callback with a query string param identifying the consumer', (done) => {
     const middleware = identifyConsumer({
       callback: (consumer) => {
         assert.equal(consumer, 'someone');
