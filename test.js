@@ -4,12 +4,14 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const identifyConsumer = require('.');
 
+const PORT = 13000;
+
 function setup(middleware, routeArgs) {
   const app = express();
   app.use(bodyParser.json());
   app.use(middleware);
   app.get(...routeArgs);
-  return app.listen(13000);
+  return app.listen(PORT);
 }
 
 const return200 = (req, res) => res.sendStatus(200);
@@ -82,6 +84,16 @@ describe('identify-consumer', () => {
   it('copes when passed no options', (done) => {
     const middleware = identifyConsumer();
     server = setup([middleware], ['/here', return200]);
+    request(server)
+      .get('/here')
+      .expect(200, done);
+  });
+  it('copes when there is no body', (done) => {
+    const middleware = identifyConsumer();
+    const app = express();
+    app.use(middleware);
+    app.get('/here', return200);
+    server = app.listen(PORT);
     request(server)
       .get('/here')
       .expect(200, done);
