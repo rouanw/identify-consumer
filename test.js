@@ -71,4 +71,13 @@ describe('identify-consumer', () => {
       .get('/here')
       .expect(200, done);
   });
+  it('400s when there is no consumer in strict mode', (done) => {
+    const middleware = identifyConsumer({
+      strict: true,
+    });
+    server = setup([middleware], ['/here', return200]);
+    request(server)
+      .get('/here')
+      .expect(400, done);
+  });
 });
