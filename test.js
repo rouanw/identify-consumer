@@ -41,9 +41,22 @@ describe('identify-consumer', () => {
         done();
       },
     });
-    server = setup(middleware, ['/here/:id', return200]);
+    server = setup(middleware, ['/here', return200]);
     request(server)
-      .post('/here/3')
+      .post('/here')
+      .send({ stuff: 'stuff', consumer: 'someone' })
+      .expect(200, end);
+  });
+  it('provides the originalUrl when there is a consumer', (done) => {
+    const middleware = identifyConsumer({
+      callback: (consumer, originalUrl) => {
+        assert.equal(originalUrl, '/here');
+        done();
+      },
+    });
+    server = setup(middleware, ['/here', return200]);
+    request(server)
+      .post('/here')
       .send({ stuff: 'stuff', consumer: 'someone' })
       .expect(200, end);
   });

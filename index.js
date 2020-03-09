@@ -2,7 +2,7 @@ module.exports = ({ callback, noConsumerCallback, strict } = {}) => (req, res, n
   const body = req.body || {};
   const consumer = req.query.consumer || body.consumer;
   if (consumer) {
-    callback && callback(consumer);
+    callback && callback(consumer, req.originalUrl);
     return next();
   } 
   
