@@ -22,9 +22,9 @@ describe('identify-consumer', () => {
   afterEach(() => {
     server.close();
   });
-  it('calls the provided callback with a query string param identifying the consumer', (done) => {
+  it('calls the provided consumerCallback with a query string param identifying the consumer', (done) => {
     const middleware = identifyConsumer({
-      callback: (consumer) => {
+      consumerCallback: (consumer) => {
         assert.equal(consumer, 'someone');
         done();
       },
@@ -34,9 +34,9 @@ describe('identify-consumer', () => {
       .get('/here?consumer=someone')
       .expect(200, end);
   });
-  it('calls the provided callback with a key on the body identifying the consumer', (done) => {
+  it('calls the provided consumerCallback with a key on the body identifying the consumer', (done) => {
     const middleware = identifyConsumer({
-      callback: (consumer) => {
+      consumerCallback: (consumer) => {
         assert.equal(consumer, 'someone');
         done();
       },
@@ -49,7 +49,7 @@ describe('identify-consumer', () => {
   });
   it('provides the express request when there is a consumer', (done) => {
     const middleware = identifyConsumer({
-      callback: (consumer, req) => {
+      consumerCallback: (consumer, req) => {
         assert.ok(req);
         assert.ok(req.originalUrl);
         done();
@@ -61,7 +61,7 @@ describe('identify-consumer', () => {
       .send({ stuff: 'stuff', consumer: 'someone' })
       .expect(200, end);
   });
-  it('copes when there is no callback', (done) => {
+  it('copes when there is no consumerCallback', (done) => {
     const middleware = identifyConsumer({});
     server = setup([middleware], ['/here', return200]);
     request(server)
