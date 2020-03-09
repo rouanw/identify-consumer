@@ -54,11 +54,23 @@ describe('identify-consumer', () => {
       .get('/here?consumer=someone')
       .expect(200, done);
   });
-  it('calls the provided callback when there is no consumer', (done) => {
+  it('calls the provided noConsumerCallback callback when there is no consumer', (done) => {
     const middleware = identifyConsumer({
       noConsumerCallback: () => {
         done();
       }
+    });
+    server = setup(middleware, ['/here', return200]);
+    request(server)
+      .get('/here')
+      .expect(200, end);
+  });
+  it('calls the provided noConsumerCallback callback with the original url of the request', (done) => {
+    const middleware = identifyConsumer({
+      noConsumerCallback: (originalUrl) => {
+        assert.equal(originalUrl, '/here');
+        done();
+      },
     });
     server = setup(middleware, ['/here', return200]);
     request(server)

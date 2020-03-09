@@ -6,7 +6,7 @@ module.exports = ({ callback, noConsumerCallback, strict } = {}) => (req, res, n
     return next();
   } 
   
-  noConsumerCallback && noConsumerCallback();
+  noConsumerCallback && noConsumerCallback(req.originalUrl);
   
   if (strict) {
     return res.sendStatus(400);
