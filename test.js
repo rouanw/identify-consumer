@@ -1,10 +1,12 @@
 const assert = require('assert');
 const request = require('supertest');
 const express = require('express');
+const bodyParser = require('body-parser')
 const identifyConsumer = require('.');
 
 function setup(middleware, routeArgs) {
   const app = express();
+  app.use(bodyParser.json());
   app.use(middleware);
   app.get(...routeArgs);
   return app.listen(13000);
@@ -30,5 +32,18 @@ describe('identify-consumer', () => {
       .end(() => {
         // do nothing, wait for callback instead
       });
+  });
+  it('calls the provided callback with a key on the body identifying the consumer', (done) => {
+    const middleware = identifyConsumer({
+      callback: (consumer) => {
+        assert.equal(consumer, 'someone');
+        done();
+      },
+    });
+    server = setup(middleware, ['/here', return200]);
+    request(server)
+      .post('/here')
+      .send({ stuff: 'stuff', consumer: 'someone' })
+      .end(() => {});
   });
 });
