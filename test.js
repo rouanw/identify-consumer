@@ -15,7 +15,7 @@ function setup(middleware, routeArgs) {
 }
 
 const return200 = (req, res) => res.sendStatus(200);
-const end =  () => { /* do nothing because the test relies on a callback */ }
+const end = () => { /* do nothing because the test relies on a callback */ }
 
 describe('identify-consumer', () => {
   let server;
