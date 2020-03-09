@@ -41,9 +41,9 @@ describe('identify-consumer', () => {
         done();
       },
     });
-    server = setup(middleware, ['/here', return200]);
+    server = setup(middleware, ['/here/:id', return200]);
     request(server)
-      .post('/here')
+      .post('/here/3')
       .send({ stuff: 'stuff', consumer: 'someone' })
       .expect(200, end);
   });
@@ -54,7 +54,7 @@ describe('identify-consumer', () => {
       .get('/here?consumer=someone')
       .expect(200, done);
   });
-  it('calls the provided callback when their is no consumer', (done) => {
+  it('calls the provided callback when there is no consumer', (done) => {
     const middleware = identifyConsumer({
       noConsumerCallback: () => {
         done();
