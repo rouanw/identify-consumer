@@ -13,6 +13,7 @@ function setup(middleware, routeArgs) {
 }
 
 const return200 = (req, res) => res.sendStatus(200);
+const end =  () => { /* do nothing because the test relies on a callback */ }
 
 describe('identify-consumer', () => {
   let server;
@@ -29,9 +30,7 @@ describe('identify-consumer', () => {
     server = setup(middleware, ['/here', return200]);
     request(server)
       .get('/here?consumer=someone')
-      .end(() => {
-        // do nothing, wait for callback instead
-      });
+      .expect(200, end);
   });
   it('calls the provided callback with a key on the body identifying the consumer', (done) => {
     const middleware = identifyConsumer({
@@ -44,7 +43,7 @@ describe('identify-consumer', () => {
     request(server)
       .post('/here')
       .send({ stuff: 'stuff', consumer: 'someone' })
-      .end(() => {});
+      .expect(200, end);
   });
   it('copes when there is no callback', (done) => {
     const middleware = identifyConsumer({});
@@ -62,7 +61,7 @@ describe('identify-consumer', () => {
     server = setup(middleware, ['/here', return200]);
     request(server)
       .get('/here')
-      .end(() => {});
+      .expect(200, end);
   });
   it('copes when there is no noConsumerCallback callback', (done) => {
     const middleware = identifyConsumer({});
